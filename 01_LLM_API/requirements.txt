@@ -3,3 +3,4 @@ uvicorn
 langchain-openai
 transformers
 jinja2
+vllm
