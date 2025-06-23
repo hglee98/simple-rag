@@ -32,18 +32,31 @@ minikube image load rag-controller:latest
 
 ### 1. 환경 설정
 
-배포 전에 `03_DEPLOY/k8s_manifest.yaml` 파일의 Secret 섹션에서 OPENAI_API_KEY를 설정해야 합니다:
+배포 전에 namespace 및 .env 파일을 생성하고 OpenAI API 키를 설정합니다.
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: rag-secrets
-  namespace: rag-system
-type: Opaque
-stringData:
-  OPENAI_API_KEY: ""
+네임스페이스를 생성합니다:
+```bash
+kubectl create namespace rag-system
+kubectl label namespace rag-system name=rag-system
 ```
+
+`.env.example` 파일을 `.env`로 복사합니다:
+
+```bash
+cp .env.example .env
+```
+
+`.env` 파일에 OpenAI API 키를 입력합니다:
+```env
+OPENAI_API_KEY=your_openai_api_key
+```
+
+.env 파일에서 Secret을 Kubernetes Secret으로 생성합니다:
+
+```bash
+kubectl create secret generic rag-system-secrets --from-env-file=.env --namespace rag-system
+```
+
 
 ### 2. 네임스페이스 및 기본 리소스 생성
 

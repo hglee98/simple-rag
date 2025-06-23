@@ -1,22 +1,4 @@
 # Kubernetes Manifest for RAG System
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: rag-system
-  labels:
-    name: rag-system
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: rag-secrets
-  namespace: rag-system
-type: Opaque
-stringData:
-  OPENAI_API_KEY: ""
-
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
