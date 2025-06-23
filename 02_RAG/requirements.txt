@@ -1,0 +1,13 @@
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+unstructured
+fastapi
+uvicorn
+python-dotenv
+numpy
+pathlib
+logging
+fake-useragent
+unstructured[md]
