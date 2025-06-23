@@ -30,13 +30,28 @@ minikube image load rag-controller:latest
 
 ## Kubernetes 배포
 
-### 1. 네임스페이스 및 기본 리소스 생성
+### 1. 환경 설정
+
+배포 전에 `03_DEPLOY/k8s_manifest.yaml` 파일의 Secret 섹션에서 OPENAI_API_KEY를 설정해야 합니다:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rag-secrets
+  namespace: rag-system
+type: Opaque
+stringData:
+  OPENAI_API_KEY: ""
+```
+
+### 2. 네임스페이스 및 기본 리소스 생성
 
 ```bash
 kubectl apply -f 03_DEPLOY/k8s_manifest.yaml
 ```
 
-### 2. 배포 확인
+### 3. 배포 확인
 
 ```bash
 # 파드 상태 확인
@@ -51,7 +66,7 @@ kubectl logs -n rag-system -l app=rag-controller
 kubectl logs -n rag-system -l app=chromadb
 ```
 
-### 3. 벡터DB 데이터 초기화
+### 4. 벡터DB 데이터 초기화
 
 RAG 시스템이 배포된 후, IT 기술 뉴스 데이터를 벡터DB에 로드하는 Job이 자동으로 실행됩니다:
 
@@ -68,3 +83,42 @@ kubectl logs -n rag-system -l job-name=rag-data-initialization
 - **RAG API**: `minikube service rag-controller-service -n rag-system`
 - **LLM API**: `minikube service llm-api-service -n rag-system`
 - **Vector DB**: `minikube service chromadb-service -n rag-system`
+
+## API 사용 가이드
+
+### RAG Controller API 엔드포인트
+
+#### 1. 헬스 체크
+
+시스템 상태를 확인합니다.
+
+```bash
+curl -X GET http://<RAG_SERVICE_URL>/health
+```
+
+**응답 예시:**
+
+```json
+{"status": "ok"}
+```
+
+#### 2. RAG 생성 API
+
+질문을 입력하여 관련 문서를 검색하고 AI 응답을 생성합니다.
+
+```bash
+curl -X POST http://<RAG_SERVICE_URL>/api/rag/generate \
+  -H "Content-Type: application/json" \
+  -d '{"text": "클라우드 컴퓨팅에 대해 설명해주세요"}'
+```
+
+**요청 파라미터:**
+- `text` (string, 필수): 검색할 질문 텍스트
+
+**응답 예시:**
+
+```json
+{
+  "response": "클라우드 컴퓨팅은 인터넷을 통해 컴퓨팅 서비스를 제공하는 기술입니다..."
+}
+```
