@@ -92,6 +92,7 @@ kubectl logs -n rag-system -l job-name=rag-data-initialization
 ## API 엔드포인트
 
 시스템이 정상 배포되면 다음 명령어를 통해 서비스에 접근할 수 있습니다:
+Swagger docs는 `http://<SERVICE_URL>/docs`에서 확인할 수 있습니다.
 
 - **RAG API**: `minikube service rag-controller-service -n rag-system`
 - **LLM API**: `minikube service llm-api-service -n rag-system`
