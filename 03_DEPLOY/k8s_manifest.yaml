@@ -14,7 +14,7 @@ metadata:
   namespace: rag-system
 type: Opaque
 stringData:
-  OPENAI_API_KEY: "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"
+  OPENAI_API_KEY: ""
 
 ---
 apiVersion: v1
