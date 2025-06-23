@@ -1,6 +1,7 @@
 from vllm import LLM, SamplingParams
 from app.config.settings import BASE_MODEL, SAMPLING_PARAMS, get_eos_token_ids
 
+
 class LLMSingleton:
     _instance = None
     _llm = None
@@ -20,7 +21,7 @@ class LLMSingleton:
                 temperature=SAMPLING_PARAMS["temperature"],
                 top_p=SAMPLING_PARAMS["top_p"],
                 max_tokens=SAMPLING_PARAMS["max_tokens"],
-                stop_token_ids=eos_token_ids
+                stop_token_ids=eos_token_ids,
             )
 
     def generate(self, prompt: str) -> str:
@@ -30,6 +31,7 @@ class LLMSingleton:
     @classmethod
     def get_instance(cls):
         return cls()
+
 
 # from langchain_openai import ChatOpenAI
 
