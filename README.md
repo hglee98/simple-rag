@@ -54,7 +54,7 @@ OPENAI_API_KEY=your_openai_api_key
 .env 파일에서 Secret을 Kubernetes Secret으로 생성합니다:
 
 ```bash
-kubectl create secret generic rag-system-secrets --from-env-file=.env --namespace rag-system
+kubectl create secret generic rag-secrets --from-env-file=.env --namespace rag-system
 ```
 
 
